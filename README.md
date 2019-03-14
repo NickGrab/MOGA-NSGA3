@@ -1,14 +1,14 @@
 # MOGA-NSGA3
 
-*This software uses 3rd generation non-dominated search based genetic algorithm go train Stillinger-Weber forcefield for thermal conducitivity simulations. For details related to using the software please follow the instructions below*
+*This software uses the 3rd generation non-dominated search based genetic algorithm (NSGA-III) to train Stillinger-Weber forcefields for use in thermal conductivity simulations. For details related to using the software please follow the instructions below*
 
 <img src="./Media/Picture1.png" width=400>
 
 ## USAGE:
 
 ### Step 1: Provide data for running the force field fitting
-1. Put reference band structure data in UTIL folder as done in this repo.
-2. Put cell data corresponding to different states as cell1, cell2, cell3 
+1. Place user-generated phonon dispersion band structure curve(s) in UTIL folder as done in this repo
+2. Place cell data corresponding to different states as cell1, cell2, cell3 
 3. Put the template forcefield which you wish to train
 
 
@@ -60,14 +60,13 @@ The structure of var.in is as follows:
  ### Step 5: Running the code
  
  For running the worflow make sure to clean up the workspace first by running <br/>
- `sh cleanup.sh ${PopulationNumber}`
+ `sh cleanup.sh ${N}`
  
  Then run the following command for tuning the force field parameters:
   
-  `mpirun -n ${PopulationNumber} ./moga | tee log`
+  `mpirun -n ${N} ./moga | tee log`
   
-  This step runs moga workflow on `${PopulationNumber}` parallel threads, each performing its own calculation independently and writes the  output to `log`
-  
+  This step runs moga workflow on `${N}` parallel threads, each performing its own calculation independently. Remaining members of the population are assigned to nodes as they are made available when `${N} < population_num` It is recommended to take `${N} = population_num` when possible. The output of the workflow is written to `log`
   
 <h2> Example : Forcefields for MoSe<sub>2</sub> monolayers</h2>
 
